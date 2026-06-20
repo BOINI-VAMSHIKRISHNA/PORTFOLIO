@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Boini Vamshi Krishna — Generative AI Engineer</title>
+<meta name="description" content="Portfolio of Boini Vamshi Krishna, Generative AI engineer specializing in LLMs, RAG systems, and Python." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0E14;
+    --bg-soft:#0D1320;
+    --surface:#121826;
+    --surface-2:#19212F;
+    --border:#232C3D;
+    --border-soft:#1B2330;
+    --text:#E7EAF0;
+    --text-dim:#8C97AC;
+    --text-faint:#5B6577;
+    --teal:#4FD8C4;
+    --teal-dim:rgba(79,216,196,0.14);
+    --amber:#F2B705;
+    --amber-dim:rgba(242,183,5,0.14);
+    --mono:'JetBrains Mono', monospace;
+    --sans:'Inter', sans-serif;
+    --maxw:1100px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+  ::selection{background:var(--teal-dim); color:var(--teal);}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 28px;}
+
+  /* background texture: faint dot grid evoking vector space */
+  .dotfield{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background-image: radial-gradient(circle, rgba(79,216,196,0.07) 1px, transparent 1.4px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 70% 50% at 50% 0%, black 0%, transparent 75%);
+  }
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter: blur(10px);
+    background:rgba(10,14,20,0.78);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .navrow{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
+  .brand{font-family:var(--mono); font-weight:600; font-size:15px; letter-spacing:0.02em; display:flex; align-items:center; gap:8px;}
+  .brand .dot{width:7px; height:7px; border-radius:50%; background:var(--teal); box-shadow:0 0 8px var(--teal);}
+  nav.links{display:flex; gap:28px; font-family:var(--mono); font-size:13px;}
+  nav.links a{text-decoration:none; color:var(--text-dim); transition:color .2s;}
+  nav.links a:hover, nav.links a:focus-visible{color:var(--teal);}
+  .navbtn{display:none; background:none; border:1px solid var(--border); color:var(--text); border-radius:6px; padding:8px 10px; font-family:var(--mono); cursor:pointer;}
+  .mobile-menu{display:none; flex-direction:column; gap:2px; padding:0 28px 16px; font-family:var(--mono); font-size:13px;}
+  .mobile-menu a{padding:10px 0; text-decoration:none; color:var(--text-dim); border-top:1px solid var(--border-soft);}
+
+  @media (max-width:760px){
+    nav.links{display:none;}
+    .navbtn{display:inline-block;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; padding:96px 0 64px; overflow:hidden;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--teal); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:""; width:24px; height:1px; background:var(--teal);}
+  h1.headline{
+    font-family:var(--sans); font-weight:800; letter-spacing:-0.02em;
+    font-size:clamp(2.3rem, 4.6vw + 1rem, 4rem);
+    line-height:1.06; margin:0 0 22px; max-width:880px;
+  }
+  h1.headline em{
+    font-style:normal; color:var(--teal);
+    background:linear-gradient(180deg, transparent 62%, var(--teal-dim) 62%);
+  }
+  .sub{font-size:clamp(1rem,1.1vw + 0.7rem,1.18rem); color:var(--text-dim); max-width:620px; margin:0 0 36px;}
+
+  .contact-row{display:flex; flex-wrap:wrap; gap:12px; margin-bottom:56px;}
+  .pillbtn{
+    font-family:var(--mono); font-size:13px; padding:10px 16px; border-radius:8px;
+    border:1px solid var(--border); color:var(--text); text-decoration:none;
+    display:inline-flex; align-items:center; gap:8px; transition:border-color .2s, color .2s, transform .15s;
+  }
+  .pillbtn:hover, .pillbtn:focus-visible{border-color:var(--teal); color:var(--teal); transform:translateY(-1px);}
+  .pillbtn.primary{background:var(--teal); color:#06110F; border-color:var(--teal); font-weight:600;}
+  .pillbtn.primary:hover{color:#06110F; opacity:0.92;}
+
+  /* search demo */
+  .demo{
+    background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:22px 22px 18px; max-width:680px;
+  }
+  .demo-label{font-family:var(--mono); font-size:12px; color:var(--text-faint); letter-spacing:0.05em; text-transform:uppercase; margin-bottom:12px;}
+  .demo-input-row{display:flex; align-items:center; gap:10px; border:1px solid var(--border); border-radius:9px; padding:11px 14px; background:var(--bg-soft);}
+  .demo-input-row svg{flex-shrink:0; opacity:0.6;}
+  #queryInput{
+    flex:1; background:none; border:none; outline:none; color:var(--text);
+    font-family:var(--mono); font-size:14px;
+  }
+  #queryInput::placeholder{color:var(--text-faint);}
+  .demo-meta{font-family:var(--mono); font-size:11.5px; color:var(--text-faint); margin-top:10px; min-height:14px;}
+  .demo-meta strong{color:var(--teal);}
+
+  /* ---------- section shell ---------- */
+  section{position:relative; z-index:1; padding:64px 0;}
+  .section-head{display:flex; align-items:baseline; gap:14px; margin-bottom:36px;}
+  .section-head .idx{font-family:var(--mono); font-size:13px; color:var(--text-faint);}
+  .section-head h2{font-size:clamp(1.5rem,1.6vw + 1rem,2rem); margin:0; letter-spacing:-0.01em;}
+  .section-head .rule{flex:1; height:1px; background:var(--border-soft);}
+
+  .reveal{opacity:0; transform:translateY(16px); transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1; transform:none;}
+
+  /* ---------- about ---------- */
+  .about p{color:var(--text-dim); max-width:740px; font-size:1.02rem;}
+  .about strong{color:var(--text); font-weight:600;}
+
+  /* ---------- skills ---------- */
+  .skill-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(230px,1fr)); gap:18px;}
+  .skill-card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:18px 18px 16px;}
+  .skill-card h3{
+    font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--amber); margin:0 0 12px;
+  }
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px;}
+  .chip{
+    font-family:var(--mono); font-size:12.5px; padding:6px 10px; border-radius:6px;
+    background:var(--surface-2); border:1px solid var(--border-soft); color:var(--text-dim);
+  }
+
+  /* ---------- experience timeline ---------- */
+  .timeline{position:relative; padding-left:28px; border-left:1px solid var(--border-soft);}
+  .tl-item{position:relative; padding-bottom:6px;}
+  .tl-item::before{
+    content:""; position:absolute; left:-33px; top:5px; width:10px; height:10px; border-radius:50%;
+    background:var(--bg); border:2px solid var(--teal);
+  }
+  .tl-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-bottom:6px;}
+  .tl-role{font-weight:700; font-size:1.08rem;}
+  .tl-org{font-family:var(--mono); font-size:13px; color:var(--teal);}
+  .tl-date{font-family:var(--mono); font-size:12.5px; color:var(--text-faint); margin-left:auto;}
+  .tl-item ul{margin:10px 0 0; padding-left:18px; color:var(--text-dim);}
+  .tl-item li{margin-bottom:6px;}
+
+  /* ---------- projects ---------- */
+  .proj-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:20px;}
+  .proj-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:13px; padding:22px;
+    display:flex; flex-direction:column; gap:12px; transition:border-color .25s, box-shadow .25s;
+  }
+  .proj-card.match{border-color:var(--teal); box-shadow:0 0 0 1px var(--teal-dim), 0 8px 28px -16px rgba(79,216,196,0.4);}
+  .proj-top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+  .proj-card h3{margin:0; font-size:1.05rem; line-height:1.35;}
+  .proj-tags{display:flex; flex-wrap:wrap; gap:6px;}
+  .proj-tags .chip{font-size:11.5px; padding:4px 8px;}
+  .proj-card ul{margin:0; padding-left:18px; color:var(--text-dim); font-size:0.93rem;}
+  .proj-card li{margin-bottom:5px;}
+
+  .relevance{margin-top:auto; padding-top:6px;}
+  .relevance-label{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:6px;}
+  .relevance-label .score{color:var(--amber);}
+  .bar-track{height:5px; border-radius:3px; background:var(--surface-2); overflow:hidden;}
+  .bar-fill{height:100%; width:8%; border-radius:3px; background:linear-gradient(90deg, var(--teal), var(--amber)); transition:width .45s cubic-bezier(.4,0,.2,1);}
+
+  /* ---------- education / certs ---------- */
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:700px){.two-col{grid-template-columns:1fr;}}
+  .info-card{background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px;}
+  .info-card h3{font-family:var(--mono); font-size:12px; text-transform:uppercase; letter-spacing:0.08em; color:var(--teal); margin:0 0 14px;}
+  .edu-row{display:flex; justify-content:space-between; gap:10px; margin-bottom:4px;}
+  .edu-row .school{color:var(--text-dim); font-size:0.92rem;}
+  .edu-row .cgpa{font-family:var(--mono); font-size:12.5px; color:var(--amber);}
+  .cert-list{list-style:none; margin:0; padding:0;}
+  .cert-list li{padding:9px 0; border-top:1px solid var(--border-soft); font-size:0.93rem; color:var(--text-dim);}
+  .cert-list li:first-child{border-top:none;}
+  .cert-list strong{color:var(--text); font-weight:600;}
+
+  /* ---------- footer ---------- */
+  footer{padding:48px 0 60px; border-top:1px solid var(--border-soft);}
+  .foot-row{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:20px;}
+  .foot-left p{margin:0; color:var(--text-faint); font-family:var(--mono); font-size:12.5px;}
+  .foot-links{display:flex; gap:18px; font-family:var(--mono); font-size:13px;}
+  .foot-links a{text-decoration:none; color:var(--text-dim);}
+  .foot-links a:hover{color:var(--teal);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important; scroll-behavior:auto !important;}
+  }
+
+  :focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="dotfield" aria-hidden="true"></div>
+
+<header>
+  <div class="navrow">
+    <div class="brand"><span class="dot"></span>BOINI VAMSHI KRISHNA</div>
+    <nav class="links" aria-label="Section navigation">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#experience">Experience</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="navbtn" id="menuToggle" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow">Generative AI Engineer</div>
+    <h1 class="headline">I build systems that <em>retrieve the right answer</em>, not just any answer.</h1>
+    <p class="sub">I work across LLMs, RAG pipelines, and vector search — turning messy data and big models into AI applications people can actually rely on. Currently a Data Scientist Intern at Vihara Tech, B.Tech AIML candidate, 2026.</p>
+
+    <div class="contact-row">
+      <a class="pillbtn primary" href="mailto:boinivamshi.3686@gmail.com">Email me</a>
+    </div>
+
+    <div class="demo" role="search">
+      <div class="demo-label">Try a quick retrieval demo — query the projects below</div>
+      <div class="demo-input-row">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8C97AC" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="queryInput" placeholder="e.g. &quot;RAG banking&quot;, &quot;computer vision&quot;, &quot;nutrition&quot;" autocomplete="off" aria-label="Search projects by topic" />
+      </div>
+      <div class="demo-meta" id="demoMeta">Type a query — relevance scores below update live, like a retriever ranking documents.</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="reveal">
+    <div class="section-head"><span class="idx">01</span><h2>About</h2><div class="rule"></div></div>
+    <div class="about">
+      <p>I'm a <strong>Generative AI enthusiast</strong> with hands-on experience building applications powered by large language models, retrieval-augmented generation, and prompt engineering. I like taking AI from a notebook experiment to something with a real interface — a Flask app, a working pipeline, a system someone other than me can use.</p>
+      <p>My recent work spans <strong>multi-database RAG systems</strong>, <strong>computer-vision pipelines</strong> for object detection, and <strong>deep-learning classifiers</strong> for image-based tasks — all built in Python, with an eye toward accuracy, scalability, and clean deployment.</p>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="reveal">
+    <div class="section-head"><span class="idx">02</span><h2>Skills</h2><div class="rule"></div></div>
+    <div class="skill-grid">
+      <div class="skill-card">
+        <h3>Generative AI</h3>
+        <div class="chip-row">
+          <span class="chip">LangChain</span><span class="chip">LLMs</span><span class="chip">Vector Embeddings</span><span class="chip">RAG</span><span class="chip">AI Agents</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Deep Learning &amp; NLP</h3>
+        <div class="chip-row">
+          <span class="chip">ANN</span><span class="chip">CNN</span><span class="chip">TensorFlow</span><span class="chip">Transformers</span><span class="chip">Embeddings</span><span class="chip">Semantic Search</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Machine Learning</h3>
+        <div class="chip-row">
+          <span class="chip">Supervised Learning</span><span class="chip">Unsupervised Learning</span><span class="chip">Model Evaluation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Databases &amp; Tools</h3>
+        <div class="chip-row">
+          <span class="chip">SQL</span><span class="chip">Vector Databases</span><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">Jupyter Notebook</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Programming</h3>
+        <div class="chip-row">
+          <span class="chip">Python</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" class="reveal">
+    <div class="section-head"><span class="idx">03</span><h2>Experience</h2><div class="rule"></div></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-head">
+          <span class="tl-role">Data Scientist Intern</span>
+          <span class="tl-org">Vihara Tech</span>
+          <span class="tl-date">Nov 2025 – May 2026</span>
+        </div>
+        <ul>
+          <li>Worked across Generative AI, Computer Vision, Deep Learning, and Predictive Analytics projects.</li>
+          <li>Built AI-powered applications using Python, LangChain, LLMs, YOLOv11, TensorFlow, Flask, and vector databases.</li>
+          <li>Developed end-to-end ML pipelines: data preprocessing, model training, evaluation, deployment, and optimization.</li>
+          <li>Collaborated on production-ready AI solutions focused on accuracy, scalability, and real business use cases.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="reveal">
+    <div class="section-head"><span class="idx">04</span><h2>Projects</h2><div class="rule"></div></div>
+    <div class="proj-grid" id="projGrid">
+
+      <article class="proj-card" data-keywords="rag retrieval augmented generation langchain chromadb vector database huggingface embeddings groq llm llama banking bank account credit card loans insurance fraud detection customer service semantic search flask web app department">
+        <div class="proj-top">
+          <h3>Multi-Database RAG System — Future Trust Bank</h3>
+        </div>
+        <div class="proj-tags">
+          <span class="chip">Python</span><span class="chip">LangChain</span><span class="chip">ChromaDB</span><span class="chip">Hugging Face</span><span class="chip">Groq LLM</span>
+        </div>
+        <ul>
+          <li>Routes user queries to department-specific knowledge bases — Account Opening, Credit Card, Loans, Insurance, Fraud Detection, Customer Service, Reception — for accurate AI responses.</li>
+          <li>Built independent ChromaDB vector databases per department.</li>
+          <li>Combined Hugging Face embeddings with Groq Llama 3.1 via LangChain for semantic search and context-aware generation.</li>
+          <li>Shipped as a responsive Flask web app for interacting with the banking assistant.</li>
+        </ul>
+        <div class="relevance">
+          <div class="relevance-label"><span>Relevance</span><span class="score">8%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+        </div>
+      </article>
+
+      <article class="proj-card" data-keywords="yolov11 yolo license plate recognition computer vision opencv ocr object detection real time vehicle text extraction image preprocessing lighting environmental conditions">
+        <div class="proj-top">
+          <h3>License Plate Recognition using YOLOv11</h3>
+        </div>
+        <div class="proj-tags">
+          <span class="chip">YOLOv11</span><span class="chip">OpenCV</span><span class="chip">OCR</span><span class="chip">Python</span>
+        </div>
+        <ul>
+          <li>Real-time vehicle plate detection and text extraction using YOLOv11, OpenCV, and OCR.</li>
+          <li>Image preprocessing and deep-learning techniques tuned for accuracy across lighting and environmental conditions.</li>
+        </ul>
+        <div class="relevance">
+          <div class="relevance-label"><span>Relevance</span><span class="score">8%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+        </div>
+      </article>
+
+      <article class="proj-card" data-keywords="food classification nutrition analysis cnn vgg16 resnet50 deep learning image classification redis calories protein carbohydrates confidence score flask web interface upload">
+        <div class="proj-top">
+          <h3>Food Classification &amp; Nutrition Analysis System</h3>
+        </div>
+        <div class="proj-tags">
+          <span class="chip">CNN</span><span class="chip">VGG16</span><span class="chip">ResNet50</span><span class="chip">Redis</span><span class="chip">Flask</span>
+        </div>
+        <ul>
+          <li>Classifies food images across multiple categories using CNN, VGG16, and ResNet50.</li>
+          <li>Pulls nutrition data via Redis to show calories, protein, carbs, and confidence scores in real time.</li>
+          <li>Flask interface for uploading images and viewing results instantly.</li>
+        </ul>
+        <div class="relevance">
+          <div class="relevance-label"><span>Relevance</span><span class="score">8%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:8%"></div></div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- EDUCATION & CERTS -->
+  <section id="education" class="reveal">
+    <div class="section-head"><span class="idx">05</span><h2>Education &amp; Certifications</h2><div class="rule"></div></div>
+    <div class="two-col">
+      <div class="info-card">
+        <h3>Education</h3>
+        <div class="edu-row">
+          <div>
+            <div style="font-weight:600;">B.Tech in AIML</div>
+            <div class="school">Joginpally B.R. Engineering College · 2022 – 2026</div>
+          </div>
+          <div class="cgpa">CGPA 7.6</div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h3>Certifications</h3>
+        <ul class="cert-list">
+          <li><strong>Certificate of Data Scientist</strong> — SETWIN Training</li>
+          <li><strong>Data Scientist Intern</strong> — Course Completion, APTIVEX</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap foot-row">
+    <div class="foot-left">
+      <p>boinivamshi.3686@gmail.com · +91 81254 43686</p>
+    </div>
+    <div class="foot-links">
+      <a href="mailto:boinivamshi.3686@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  menuToggle.addEventListener('click', () => {
+    const open = mobileMenu.style.display === 'flex';
+    mobileMenu.style.display = open ? 'none' : 'flex';
+    menuToggle.setAttribute('aria-expanded', String(!open));
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.style.display = 'none';
+    menuToggle.setAttribute('aria-expanded', 'false');
+  }));
+
+  // reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => io.observe(el));
+
+  // retrieval-style relevance search demo
+  const input = document.getElementById('queryInput');
+  const meta = document.getElementById('demoMeta');
+  const cards = Array.from(document.querySelectorAll('.proj-card'));
+
+  function score(query, keywords) {
+    const q = query.toLowerCase().trim();
+    if (!q) return 0;
+    const words = q.split(/\s+/).filter(Boolean);
+    let hits = 0;
+    words.forEach(w => { if (keywords.includes(w)) hits++; });
+    // partial substring credit too, so single strong terms still register
+    let partial = 0;
+    words.forEach(w => { if (w.length > 2 && keywords.includes(w.slice(0, Math.max(3, w.length - 1)))) partial += 0.5; });
+    const raw = Math.min(words.length, hits + partial);
+    return Math.round((raw / words.length) * 100);
+  }
+
+  input.addEventListener('input', () => {
+    const t0 = performance.now();
+    const q = input.value;
+    let best = null;
+    cards.forEach(card => {
+      const kw = card.dataset.keywords;
+      const s = q ? Math.max(score(q, kw), 8) : 8;
+      const fill = card.querySelector('.bar-fill');
+      const label = card.querySelector('.score');
+      fill.style.width = s + '%';
+      label.textContent = s + '%';
+      card.classList.toggle('match', q.length > 0 && s >= 60);
+      if (!best || s > best.s) best = { s, title: card.querySelector('h3').textContent };
+    });
+    const t1 = performance.now();
+    if (!q) {
+      meta.innerHTML = 'Type a query — relevance scores below update live, like a retriever ranking documents.';
+    } else {
+      meta.innerHTML = `Ranked in <strong>${(t1 - t0).toFixed(1)}ms</strong> · top match: <strong>${best.title}</strong>`;
+    }
+  });
+</script>
+
+</body>
+</html>
