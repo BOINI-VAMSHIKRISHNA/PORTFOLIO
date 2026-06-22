@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify
-
+#flask is better for portfolio which have less number of loads
 app = Flask(__name__)
 
 
